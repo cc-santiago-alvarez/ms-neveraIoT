@@ -1,0 +1,82 @@
+const User = require('../models/user.js')
+const { v4: uuid } = require('uuid')
+
+const getAllUsers = async (req, res) => {
+    try {
+        const user = await User.find()
+        res.status(200).json(user)
+    } catch (error) {
+        res.status(500).send(`USER_NOT_FOUND`)
+    }
+}
+
+const getUserById = async (req, res) => {
+    try {
+        const userId = req.params._id
+        const user = await User.find({ id: userId })
+        res.status(200).json(user)
+    } catch (error) {
+        res.status(500).send(`USER_NOT_FOUND`)
+    }
+}
+
+const getUserByCardCode = async (req, res) => {
+    try {
+        const userCardCode = req.params.cardCode
+        const user = await User.find({userCardCode})
+        res.status(200).json(user)  
+    } catch (error) {
+        res.status(500).send(`USER_NOT_FOUND`)
+    }
+}
+
+const createUser = async (req, res) => {
+    try {
+        const userData = req.body
+        userData._id = uuid()
+        const user = await new User(userData).save()
+        res.status(200).json(user)
+    } catch (error) {
+        res.status(500).send(`USER_COULD_NOT_BE_CREATED`)
+    }
+}
+
+const updateUser = async (req, res) => {
+    try {
+        const updateUserId = req.params._id
+        const userData = req.body
+        const user = await User.findByIdAndUpdate(updateUserId, userData, {new: true})
+
+        if(!user){
+            res.status(404).send('USER_NOT_FOUND')
+        }
+
+        res.status(200).json(user)
+    } catch (error) {
+        res.status(500).send(`USER_COULD_NOT_BE_UPDATED`)
+    }
+}
+
+const deleteUser = async (req, res) => {
+    try {
+        const getId = req.params._id
+        const user = await User.findByIdAndRemove(getId)
+
+        if(!user){
+            res.status(404).send('USER_NOT_FOUND')
+        }
+
+        res.status(200).json(user)
+    } catch (error) {
+        res.status(500).send(`USER_COULD_NOT_BE_DELETED`)
+    }
+}
+
+module.exports = {
+    getAllUsers,
+    getUserById,
+    getUserByCardCode,
+    createUser,
+    updateUser,
+    deleteUser
+}

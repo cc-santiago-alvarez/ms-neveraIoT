@@ -6,27 +6,32 @@ const getAllUsers = async (req, res) => {
         const user = await User.find()
         res.status(200).json(user)
     } catch (error) {
-        res.status(500).send(`USER_NOT_FOUND`)
+        res.status(500).json({ message: "SERVER_ERROR" });
     }
 }
 
 const getUserById = async (req, res) => {
     try {
-        const userId = req.params._id
+        const userId = req.params.id
         const user = await User.find({ id: userId })
         res.status(200).json(user)
     } catch (error) {
-        res.status(500).send(`USER_NOT_FOUND`)
+        res.status(500).json({ message: "SERVER_ERROR" });
     }
 }
 
 const getUserByCardCode = async (req, res) => {
     try {
         const userCardCode = req.params.cardCode
-        const user = await User.find({userCardCode})
+        const user = await User.find({cardCode: userCardCode })
+
+        if(user.length === 0) {
+            return res.status(404).json({ message: "USER_NOT_FOUND" });
+        }
+
         res.status(200).json(user)  
     } catch (error) {
-        res.status(500).send(`USER_NOT_FOUND`)
+        res.status(500).json({ message: "SERVER_ERROR" });
     }
 }
 
@@ -37,7 +42,7 @@ const createUser = async (req, res) => {
         const user = await new User(userData).save()
         res.status(200).json(user)
     } catch (error) {
-        res.status(500).send(`USER_COULD_NOT_BE_CREATED`)
+        res.status(500).json({ message: "SERVER_ERROR" });
     }
 }
 
@@ -53,7 +58,7 @@ const updateUser = async (req, res) => {
 
         res.status(200).json(user)
     } catch (error) {
-        res.status(500).send(`USER_COULD_NOT_BE_UPDATED`)
+        res.status(500).json({ message: "SERVER_ERROR" });
     }
 }
 
@@ -68,7 +73,7 @@ const deleteUser = async (req, res) => {
 
         res.status(200).json(user)
     } catch (error) {
-        res.status(500).send(`USER_COULD_NOT_BE_DELETED`)
+        res.status(500).json({ message: "SERVER_ERROR" });
     }
 }
 

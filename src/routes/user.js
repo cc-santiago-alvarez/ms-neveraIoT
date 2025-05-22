@@ -13,7 +13,7 @@ userRouter.use(express.json())
 
 userRouter.route('/').get(getAllUsers)
 userRouter.route('/id/:id').get(getUserById);
-userRouter.route('/:cardCode').get(getUserByCardCode)
+userRouter.route('/cardCode/:cardCode').get(getUserByCardCode);
 userRouter.route('/create').post(createUser)
 userRouter.route('/update').put(updateUser)
 userRouter.route('/delete').delete(deleteUser)

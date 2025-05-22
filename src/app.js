@@ -18,7 +18,16 @@ const connectDb = async () => {
 
 const app = express()
 app.use(bodyParser.json())
-app.use(express.static('public'))
+app.use(express.static('src/public'))
+app.use((req, res, next) => {
+    if (req.url.endsWith('.css')) {
+      res.setHeader('Content-Type', 'text/css');
+    }
+    if (req.url.endsWith('.js')) {
+      res.setHeader('Content-Type', 'application/javascript');
+    }
+    next();
+  });
 
 app.get('/', (req, res) => {
     res.sendFile(__dirname + '/public/index.html')

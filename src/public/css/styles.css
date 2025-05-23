@@ -44,3 +44,13 @@ button:hover {
     padding: 1rem;
     border-radius: 4px;
 }
+
+.btn-limpiar {
+    background-color: #f44336 !important;
+    margin-top: 15px !important;
+    display: none;
+}
+
+.btn-limpiar:hover {
+    background-color: #d32f2f !important;
+}

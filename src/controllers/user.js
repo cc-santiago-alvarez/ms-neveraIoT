@@ -20,6 +20,28 @@ const getUserById = async (req, res) => {
     }
 }
 
+const updateLastAccess = async (req, res) => {
+    try {
+        req.app.locals.lastAccessData = {
+            userId: req.body.userId,
+            timestamp: nDate.now(),
+            isActive: true 
+        };
+        res.status(200).json({ message: "UPDATE_SUCCESS" });
+    } catch (error) {
+        res.status(500).json({ message: "SERVER_ERROR" });
+    }
+};
+
+const clearAccess = async (req, res) => {
+    try {
+        req.app.locals.lastAccessData.isActive = false;
+        res.status(200).json({ message: "ACCESS_CLEARED" });
+    } catch (error) {
+        res.status(500).json({ message: "SERVER_ERROR" });
+    }
+};
+
 const getUserByCardCode = async (req, res) => {
     try {
         const userCardCode = req.params.cardCode
@@ -83,5 +105,6 @@ module.exports = {
     getUserByCardCode,
     createUser,
     updateUser,
-    deleteUser
+    deleteUser,
+    updateLastAccess,
 }

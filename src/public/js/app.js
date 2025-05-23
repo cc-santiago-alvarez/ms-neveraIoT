@@ -82,24 +82,3 @@ document.getElementById('consultaForm').addEventListener('submit', async (e) => 
     const cedula = document.getElementById('cedula').value;
     await performSearch(cedula);
 });
-
-// Mostrar botón al tener resultados
-resultadoDiv.innerHTML = `
-    ${user[0].firstName} ${user[0].lastName}<br>
-    Su documento es: ${user[0].id}
-`;
-document.getElementById('btnLimpiar').style.display = 'block';
-
-// Manejar evento del botón
-document.getElementById('btnLimpiar').addEventListener('click', async () => {
-    try {
-        await fetch('/api/v1/user/clear-access', { method: 'POST' });
-        document.getElementById('resultado').innerHTML = '';
-        document.getElementById('resultado').style.backgroundColor = '';
-        document.getElementById('resultado').style.color = '';
-        document.getElementById('btnLimpiar').style.display = 'none';
-        document.getElementById('cedula').value = '';
-    } catch (error) {
-        console.error('Error al limpiar:', error);
-    }
-});

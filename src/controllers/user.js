@@ -24,7 +24,7 @@ const updateLastAccess = async (req, res) => {
     try {
         req.app.locals.lastAccessData = {
             userId: req.body.userId,
-            timestamp: nDate.now(),
+            timestamp: Date.now(),
             isActive: true 
         };
         res.status(200).json({ message: "UPDATE_SUCCESS" });
@@ -106,5 +106,6 @@ module.exports = {
     createUser,
     updateUser,
     deleteUser,
+    clearAccess,
     updateLastAccess,
 }
